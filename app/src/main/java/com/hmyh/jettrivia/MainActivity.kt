@@ -1,6 +1,7 @@
 package com.hmyh.jettrivia
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.hmyh.jettrivia.screens.QuestionViewModel
 import com.hmyh.jettrivia.ui.theme.JetTriviaTheme
 
 @AndroidEntryPoint
@@ -22,10 +25,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetTriviaTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+
+                    TriviaHome(
                         modifier = Modifier.padding(innerPadding)
                     )
+
                 }
             }
         }
@@ -33,17 +37,30 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun TriviaHome(viewModel: QuestionViewModel = hiltViewModel(),modifier: Modifier){
+    Question(viewModel)
+}
+
+@Composable
+fun Question(viewModel: QuestionViewModel){
+    val questions = viewModel.data.value.data?.toMutableList()
+
+    if (viewModel.data.value.loading == true){
+        Log.d("Loading", "Question....loading...")
+    }
+    else{
+        Log.d("Loading", "Question loading stop")
+
+        questions?.forEach { questionItem ->
+            Log.d("Result","Questions ${questionItem.question}")
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     JetTriviaTheme {
-        Greeting("Android")
+
     }
 }
