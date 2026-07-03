@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
@@ -47,17 +49,31 @@ import com.hmyh.jettrivia.util.AppColors
 fun Question(viewModel: QuestionViewModel) {
     val questions = viewModel.data.value.data?.toMutableList()
 
+    val questionIndex = remember {
+        mutableStateOf(0)
+    }
+
     if (viewModel.data.value.loading == true) {
 
         CircularProgressIndicator()
 
     } else {
 
+        val question = try {
+            questions?.get(index = questionIndex.value)
+        }catch (ex: Exception){
+            null
+        }
+
 
         if (questions != null) {
 
-            QuestionDisplay(question = questions[0], onNextClick = {
-                Log.d("Question", "Question: $it")
+            QuestionDisplay(
+                question = question!!,
+                questionIndex = questionIndex,
+                viewModel = viewModel,
+                onNextClick = {
+                    questionIndex.value += 1
             })
         }
     }
@@ -67,14 +83,14 @@ fun Question(viewModel: QuestionViewModel) {
 @Composable
 fun QuestionDisplay(
     question: QuestionItem,
-    // questionIndex: MutableState<Int>,
-    // viewModel: QuestionViewModel,
+    questionIndex: MutableState<Int>,
+    viewModel: QuestionViewModel,
     onNextClick: (Int) -> Unit = {}
 ) {
 
 
     // Track the choices state
-    val choicesState = remember {
+    val choicesState = remember(question) {
         question.choices.toMutableList()
     }
 
@@ -111,6 +127,7 @@ fun QuestionDisplay(
             horizontalAlignment = Alignment.Start
         ) {
             QuestionTracker(
+                counter = questionIndex.value
             )
             DrawDottedLine(
                 pathEffect = pathEffect,
@@ -203,6 +220,25 @@ fun QuestionDisplay(
                         Text(text = annotatedString, modifier = Modifier.padding(6.dp))
                     }
                 }
+
+                Button(
+                    onClick = {
+                        onNextClick(questionIndex.value)
+                    },
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(alignment = Alignment.CenterHorizontally),
+                    shape = RoundedCornerShape(34.dp),
+                    colors = ButtonDefaults.buttonColors(AppColors.mLightBlue)
+                ) {
+                    Text(
+                        text = "Next",
+                        modifier = Modifier.padding(4.dp),
+                        color = AppColors.mOffWhite,
+                        fontSize = 16.sp
+                    )
+                }
+
             }
         }
     }
@@ -230,7 +266,7 @@ fun DrawDottedLine(pathEffect: PathEffect, modifier: Modifier) {
 
 
 @Composable
-fun QuestionTracker(counter: Int = 10, outOff: Int = 100) {
+fun QuestionTracker(counter: Int, outOff: Int = 100) {
 
     Text(text = buildAnnotatedString {
         withStyle(style = ParagraphStyle(textIndent = TextIndent.None)) {
