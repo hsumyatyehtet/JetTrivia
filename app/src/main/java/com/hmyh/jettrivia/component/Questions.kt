@@ -54,8 +54,7 @@ fun Question(viewModel: QuestionViewModel) {
     } else {
 
 
-
-        if (questions != null){
+        if (questions != null) {
 
             QuestionDisplay(question = questions[0], onNextClick = {
                 Log.d("Question", "Question: $it")
@@ -68,19 +67,23 @@ fun Question(viewModel: QuestionViewModel) {
 @Composable
 fun QuestionDisplay(
     question: QuestionItem,
-   // questionIndex: MutableState<Int>,
-   // viewModel: QuestionViewModel,
-    onNextClick: (Int) -> Unit ={}
+    // questionIndex: MutableState<Int>,
+    // viewModel: QuestionViewModel,
+    onNextClick: (Int) -> Unit = {}
 ) {
 
+
+    // Track the choices state
     val choicesState = remember {
         question.choices.toMutableList()
     }
 
+    // Track the selected answer state
     val answerState = remember(question) {
         mutableStateOf<Int?>(null)
     }
 
+    // Track the correct answer state
     val correctAnswerState = remember(question) {
         mutableStateOf<Boolean?>(null)
     }
@@ -93,14 +96,13 @@ fun QuestionDisplay(
     }
 
 
-    val pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f,10f),0f)
+    val pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
 
 
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight()
-            .padding(),
+            .fillMaxHeight(),
         color = AppColors.mDarkPurple
     ) {
         Column(
@@ -121,8 +123,7 @@ fun QuestionDisplay(
                     modifier = Modifier
                         .padding(6.dp)
                         .align(alignment = Alignment.Start)
-                        .fillMaxHeight(0.3f)
-                    ,
+                        .fillMaxHeight(0.3f),
                     fontSize = 16.sp,
                     color = AppColors.mOffWhite,
                     fontWeight = FontWeight.Bold,
@@ -139,20 +140,26 @@ fun QuestionDisplay(
                             .border(
                                 width = 4.dp,
                                 brush = Brush.linearGradient(
-                                colors = listOf(AppColors.mOffDarkPurple,
-                                    AppColors.mOffDarkPurple)),
+                                    colors = listOf(
+                                        AppColors.mOffDarkPurple,
+                                        AppColors.mOffDarkPurple
+                                    )
+                                ),
                                 shape = RoundedCornerShape(15.dp)
                             )
-                            .clip(RoundedCornerShape(
-                                topStartPercent = 50,
-                                topEndPercent = 50,
-                                bottomEndPercent = 50,
-                                bottomStartPercent = 50
-                            ))
+                            .clip(
+                                RoundedCornerShape(
+                                    topStartPercent = 50,
+                                    topEndPercent = 50,
+                                    bottomEndPercent = 50,
+                                    bottomStartPercent = 50
+                                )
+                            )
                             .background(Color.Transparent),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         RadioButton(
+                            //Is my index the same as the selected index?
                             selected = (answerState.value == index),
                             onClick = {
                                 updateAnswer(index)
@@ -162,15 +169,38 @@ fun QuestionDisplay(
                                 .colors(
                                     selectedColor =
                                         if (correctAnswerState.value == true &&
-                                            index == answerState.value){
+                                            index == answerState.value
+                                        ) {
                                             Color.Green.copy(alpha = 0.2f)
-                                        }else{
+                                        } else {
                                             Color.Red.copy(alpha = 0.2f)
                                         }
                                 )
                         )
 
-                        Text(text = answerText)
+                        val annotatedString = buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.Light,
+                                    color = if (correctAnswerState.value == true &&
+                                        index == answerState.value
+                                    ) {
+                                        Color.Green
+                                    } else if (correctAnswerState.value == false &&
+                                        index == answerState.value
+                                    ) {
+                                        Color.Red
+                                    } else {
+                                        AppColors.mOffWhite
+                                    },
+                                    fontSize = 16.sp
+                                )
+                            ){
+                                append(answerText)
+                            }
+                        }
+
+                        Text(text = annotatedString, modifier = Modifier.padding(6.dp))
                     }
                 }
             }
@@ -180,11 +210,13 @@ fun QuestionDisplay(
 
 
 @Composable
-fun DrawDottedLine(pathEffect: PathEffect,modifier: Modifier) {
+fun DrawDottedLine(pathEffect: PathEffect, modifier: Modifier) {
 
-    Canvas(modifier = modifier
-        .fillMaxWidth()
-        .height(1.dp)) {
+    Canvas(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(1.dp)
+    ) {
         drawLine(
             color = AppColors.mLightGray,
             start = Offset(0f, 0f),
