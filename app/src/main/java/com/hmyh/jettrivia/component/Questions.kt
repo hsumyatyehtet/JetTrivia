@@ -73,8 +73,9 @@ fun Question(viewModel: QuestionViewModel) {
                 questionIndex = questionIndex,
                 viewModel = viewModel,
                 onNextClick = {
-                    questionIndex.value += 1
-            })
+                    questionIndex.value += 1 },
+                total = questions.size
+            )
         }
     }
 }
@@ -85,7 +86,8 @@ fun QuestionDisplay(
     question: QuestionItem,
     questionIndex: MutableState<Int>,
     viewModel: QuestionViewModel,
-    onNextClick: (Int) -> Unit = {}
+    onNextClick: (Int) -> Unit = {},
+    total: Int
 ) {
 
 
@@ -127,7 +129,8 @@ fun QuestionDisplay(
             horizontalAlignment = Alignment.Start
         ) {
             QuestionTracker(
-                counter = questionIndex.value
+                counter = questionIndex.value,
+                outOff = total
             )
             DrawDottedLine(
                 pathEffect = pathEffect,
@@ -266,7 +269,7 @@ fun DrawDottedLine(pathEffect: PathEffect, modifier: Modifier) {
 
 
 @Composable
-fun QuestionTracker(counter: Int, outOff: Int = 100) {
+fun QuestionTracker(counter: Int, outOff: Int) {
 
     Text(text = buildAnnotatedString {
         withStyle(style = ParagraphStyle(textIndent = TextIndent.None)) {
