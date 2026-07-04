@@ -1,14 +1,14 @@
-# 🎯 JetTrivia
+#JetTrivia
 
 A simple Android quiz application built with **Jetpack Compose** to demonstrate modern Android development concepts.
 
-## 🚀 What You'll Learn
+## What You'll Learn
 
-- 🏗️ **Clean Architecture**
-- 🌐 **JSON Parsing with Retrofit**
-- 🎨 **UI Design using Jetpack Compose**
+- **Clean Architecture**
+- **JSON Parsing with Retrofit**
+- **UI Design using Jetpack Compose**
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - Kotlin
 - Jetpack Compose
@@ -16,10 +16,8 @@ A simple Android quiz application built with **Jetpack Compose** to demonstrate 
 - Kotlin Coroutines
 - Material 3
 
-## 📱 Screenshots
+##  Screenshots
 
-
-
-## 📄 License
+<img src="screenshots/home.png" width="250"/>
 
 This project is for learning and educational purposes.
