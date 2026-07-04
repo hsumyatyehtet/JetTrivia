@@ -26,6 +26,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -39,6 +41,7 @@ import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,8 +80,7 @@ fun Question(viewModel: QuestionViewModel) {
                 viewModel = viewModel,
                 onNextClick = {
                     questionIndex.value += 1
-                },
-                total = questions.size
+                }
             )
         }
     }
@@ -90,8 +92,7 @@ fun QuestionDisplay(
     question: QuestionItem,
     questionIndex: MutableState<Int>,
     viewModel: QuestionViewModel,
-    onNextClick: (Int) -> Unit = {},
-    total: Int
+    onNextClick: (Int) -> Unit = {}
 ) {
 
 
@@ -132,9 +133,12 @@ fun QuestionDisplay(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
+
+            if (questionIndex.value > 3) ShowProgress(score = questionIndex.value)
+
             QuestionTracker(
                 counter = questionIndex.value,
-                outOff = total
+                outOff = viewModel.getTotalQuestionsCount()
             )
             DrawDottedLine(
                 pathEffect = pathEffect,
@@ -311,6 +315,10 @@ fun ShowProgress(score: Int = 12) {
         )
     )
 
+    val progressFactor by remember(score) {
+        mutableFloatStateOf(score * 0.005f)
+    }
+
     Row(
         modifier = Modifier
             .padding(2.dp)
@@ -344,7 +352,7 @@ fun ShowProgress(score: Int = 12) {
 
             },
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(progressFactor)
                 .background(brush = gradient),
             enabled = false,
             elevation = null,
@@ -352,6 +360,16 @@ fun ShowProgress(score: Int = 12) {
                 containerColor = Color.Transparent
             )
         ) {
+
+            Text(
+                text = (score*10).toString(),
+                modifier = Modifier.clip(shape = RoundedCornerShape(23.dp))
+                    .fillMaxHeight(0.87f)
+                    .fillMaxWidth()
+                    .padding(6.dp),
+                color = AppColors.mOffWhite,
+                textAlign = TextAlign.Center
+            )
 
         }
 
