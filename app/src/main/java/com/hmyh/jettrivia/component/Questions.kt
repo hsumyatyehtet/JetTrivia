@@ -1,5 +1,6 @@
 package com.hmyh.jettrivia.component
 
+import android.R
 import android.R.attr.onClick
 import android.util.Log
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
@@ -61,7 +64,7 @@ fun Question(viewModel: QuestionViewModel) {
 
         val question = try {
             questions?.get(index = questionIndex.value)
-        }catch (ex: Exception){
+        } catch (ex: Exception) {
             null
         }
 
@@ -73,7 +76,8 @@ fun Question(viewModel: QuestionViewModel) {
                 questionIndex = questionIndex,
                 viewModel = viewModel,
                 onNextClick = {
-                    questionIndex.value += 1 },
+                    questionIndex.value += 1
+                },
                 total = questions.size
             )
         }
@@ -215,7 +219,7 @@ fun QuestionDisplay(
                                     },
                                     fontSize = 16.sp
                                 )
-                            ){
+                            ) {
                                 append(answerText)
                             }
                         }
@@ -293,5 +297,65 @@ fun QuestionTracker(counter: Int, outOff: Int) {
             }
         }
     })
+
+}
+
+@Preview
+@Composable
+fun ShowProgress(score: Int = 12) {
+
+    val gradient = Brush.linearGradient(
+        listOf(
+            Color(0xFFF95075),
+            Color(0xFFBE6BE5)
+        )
+    )
+
+    Row(
+        modifier = Modifier
+            .padding(2.dp)
+            .fillMaxWidth()
+            .height(45.dp)
+            .border(
+                width = 4.dp,
+                brush = Brush.linearGradient(
+                    colors = listOf(
+                        AppColors.mLightPurple,
+                        AppColors.mLightPurple
+                    )
+                ),
+                shape = RoundedCornerShape(34.dp)
+            )
+            .clip(
+                RoundedCornerShape(
+                    topStartPercent = 50,
+                    topEndPercent = 50,
+                    bottomStartPercent = 50,
+                    bottomEndPercent = 50
+                )
+            )
+            .background(Color.Transparent),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        Button(
+            contentPadding = PaddingValues(1.dp),
+            onClick = {
+
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(brush = gradient),
+            enabled = false,
+            elevation = null,
+            colors = buttonColors(
+                containerColor = Color.Transparent
+            )
+        ) {
+
+        }
+
+    }
+
 
 }
