@@ -7,5 +7,5 @@ import com.hmyh.jettrivia.component.Question
 
 @Composable
 fun TriviaHome(viewModel: QuestionViewModel = hiltViewModel(),modifier: Modifier){
-    Question(viewModel)
+    Question(viewModel,modifier)
 }

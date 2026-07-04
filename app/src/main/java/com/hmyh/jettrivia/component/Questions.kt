@@ -52,7 +52,7 @@ import com.hmyh.jettrivia.screens.QuestionViewModel
 import com.hmyh.jettrivia.util.AppColors
 
 @Composable
-fun Question(viewModel: QuestionViewModel) {
+fun Question(viewModel: QuestionViewModel,modifier: Modifier) {
     val questions = viewModel.data.value.data?.toMutableList()
 
     val questionIndex = remember {
@@ -80,7 +80,8 @@ fun Question(viewModel: QuestionViewModel) {
                 viewModel = viewModel,
                 onNextClick = {
                     questionIndex.value += 1
-                }
+                },
+                modifier = modifier
             )
         }
     }
@@ -92,7 +93,8 @@ fun QuestionDisplay(
     question: QuestionItem,
     questionIndex: MutableState<Int>,
     viewModel: QuestionViewModel,
-    onNextClick: (Int) -> Unit = {}
+    onNextClick: (Int) -> Unit = {},
+    modifier: Modifier
 ) {
 
 
@@ -123,7 +125,7 @@ fun QuestionDisplay(
 
 
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight(),
         color = AppColors.mDarkPurple
