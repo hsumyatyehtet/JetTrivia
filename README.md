@@ -1,4 +1,4 @@
-#JetTrivia
+# JetTrivia
 
 A simple Android quiz application built with **Jetpack Compose** to demonstrate modern Android development concepts.
 
