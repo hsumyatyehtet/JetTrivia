@@ -1,6 +1,7 @@
 # JetTrivia
 
-A simple Android quiz application built with **Jetpack Compose** to demonstrate modern Android development concepts.
+A simple Android quiz application built with **Jetpack Compose** to demonstrate modern Android
+development concepts.
 
 ## What You'll Learn
 
@@ -16,8 +17,18 @@ A simple Android quiz application built with **Jetpack Compose** to demonstrate 
 - Kotlin Coroutines
 - Material 3
 
-##  Screenshots
+## Screenshots
 
-<img src="screenshots/home.png" width="250"/>
+<p align="center">
+  <img src="screenshots/image_1.jpg" width="250"/>
+  <img src="screenshots/image_2.jpg" width="250"/>
+
+</p>
+
+<p align="center">
+  <img src="screenshots/image_3.jpg" width="250"/>
+  <img src="screenshots/home.png" width="250"/>
+</p>
+
 
 This project is for learning and educational purposes.
