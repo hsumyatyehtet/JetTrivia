@@ -19,14 +19,14 @@ development concepts.
 
 ## Screenshots
 
-<p align="center">
+<p align="start">
   <img src="screenshots/image_1.jpg" width="250"/>
   <img src="screenshots/image_2.jpg" width="250"/>
+  <img src="screenshots/image_3.jpg" width="250"/>
 
 </p>
 
-<p align="center">
-  <img src="screenshots/image_3.jpg" width="250"/>
+<p align="start">
   <img src="screenshots/home.png" width="250"/>
 </p>
 
